@@ -30,6 +30,9 @@ public class Main implements Runnable {
         // Create oblect for window
         this.window = new Window(this.WIDTH, this.HEIGHT, "Game");
         
+        // Set the background color for the window
+        this.window.setBackgroundColor(1.0f, 0, 0);
+                
         // Create the window
         this.window.create();
     }
@@ -38,16 +41,13 @@ public class Main implements Runnable {
         // Run the initialization 
         this.init();
         
-        // While the window is open
-        while (!this.window.shouldClose()) {
+        // While the window is open or the ESC key is not pressed
+        while (!this.window.shouldClose() && !Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) {
             // Update
             this.update();
             
             // Render
             this.render();
-            
-            // Check if ESC is pressed
-            if (Input.isKeyDown(GLFW.GLFW_KEY_ESCAPE)) break;
         }
         
         // Close the window
