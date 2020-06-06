@@ -5,8 +5,12 @@
  */
 package main;
 
+import engine.graphics.Mesh;
+import engine.graphics.Renderer;
+import engine.graphics.Vertex;
 import engine.io.Input;
 import engine.io.Window;
+import engine.maths.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
 /**
@@ -18,6 +22,18 @@ public class Main implements Runnable {
     public Thread game;
     public Window window;
     public final int WIDTH = 1280, HEIGHT = 760;
+    
+    // A simple mesh with a rectangle rentangle to be rendered
+    public Renderer renderer;
+    public Mesh mesh = new Mesh(new Vertex[] {
+        new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f)),
+        new Vertex(new Vector3f(0.5f, 0.5f, 0.0f)),
+        new Vertex(new Vector3f(0.5f, -0.5f, 0.0f)),
+        new Vertex(new Vector3f(-0.5f, -0.5f, 0.0f))
+    }, new int[] {
+        0, 1, 2,
+        0, 3, 2,
+    });
 
     public void start() {
         this.game = new Thread(this, "game");
@@ -35,6 +51,10 @@ public class Main implements Runnable {
                 
         // Create the window
         this.window.create();
+        
+        // Create the rectangle and the renderer
+        renderer = new Renderer();
+        mesh.create();
     }
     
     public void run() {
@@ -65,9 +85,11 @@ public class Main implements Runnable {
     }
     
     private void render() {
+        // Render the mesh
+        renderer.renderMesh(mesh);
+        
         // System.out.println("Rendering Game!");
         this.window.swapBuffers();
-        
     }
     
     /**

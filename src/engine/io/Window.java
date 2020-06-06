@@ -5,6 +5,7 @@
  */
 package engine.io;
 
+import engine.maths.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
@@ -23,7 +24,7 @@ public class Window {
     private static long time;
     private Input input;
     // Background colors
-    private float backgroundR, backgroundG, backgroundB;
+    private Vector3f background;
     private GLFWWindowSizeCallback sizeCallback;
     private boolean isResized;
     private boolean isFullscreen;
@@ -36,11 +37,15 @@ public class Window {
      * @param title the title of the window
      */
     public Window(int width, int height, String title) {
-        this.windowPosX = new int[1];
-        this.windowPosY = new int[1];
+        // Get the width, height and title
         this.width = width;
         this.height = height;
         this.title = title;
+        
+        // Necessary initializations
+        this.windowPosX = new int[1];
+        this.windowPosY = new int[1];
+        this.background = new Vector3f(0, 0, 0);
     }
     
     /**
@@ -127,7 +132,7 @@ public class Window {
         }
 
         // Set the clear colors
-        GL11.glClearColor(this.backgroundR, this.backgroundG, this.backgroundB, 1.0f);
+        GL11.glClearColor(this.background.getX(), this.background.getY(), this.background.getZ(), 1.0f);
 
         // Clear
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -181,9 +186,9 @@ public class Window {
      * @param blue the amount of blue in the color
      */
     public void setBackgroundColor(float red, float green, float blue) {
-        this.backgroundR = red;
-        this.backgroundG = green;
-        this.backgroundB = blue;
+        this.background.setX(red);
+        this.background.setY(green);
+        this.background.setZ(blue);
     }
 
     /**
