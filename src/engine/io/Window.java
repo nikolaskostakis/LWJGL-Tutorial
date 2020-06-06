@@ -21,23 +21,29 @@ public class Window {
     private int frames;
     private static long time;
     
+    public Input input;
+    
     /**
      * Constructor 
      * @param width
      * @param height
      * @param title 
      */
-    public Window(int width, int height, String title){
+    public Window(int width, int height, String title) {
         this.width = width;
         this.height = height;
         this.title = title;
     }
     
-    public void create(){
+    public void create() {
+        // Initialization
         if (!GLFW.glfwInit()) {
             System.err.println("ERROR: GLFW was not initialized!");
             return;
         }
+        
+        // Create object for inputs
+        this.input = new Input();
         
         // Create window
         this.windowVar = GLFW.glfwCreateWindow(this.width, this.height, this.title, 0, 0);
@@ -55,6 +61,11 @@ public class Window {
         // Make the window the one GLFW changes are made
         GLFW.glfwMakeContextCurrent(this.windowVar);
         
+        // Add callbacks to the window
+        GLFW.glfwSetKeyCallback(this.windowVar, this.input.getKeyboardCallback());
+        GLFW.glfwSetCursorPosCallback(this.windowVar, this.input.getMouseMoveCllback());
+        GLFW.glfwSetMouseButtonCallback(this.windowVar, this.input.getMouseButtonsCallback());
+        
         // Show the window
         GLFW.glfwShowWindow(this.windowVar);
         
@@ -66,7 +77,7 @@ public class Window {
         Window.time = System.currentTimeMillis();
     }
     
-    public void update(){
+    public void update() {
         // Gets all the callbacks connected to this window
         GLFW.glfwPollEvents();
         
@@ -84,12 +95,19 @@ public class Window {
         }
     }
     
-    public void swapBuffers(){
+    public void swapBuffers() {
         // Swaps buffers of window
         GLFW.glfwSwapBuffers(this.windowVar);
     }
     
-    public boolean shouldClose(){
+    public boolean shouldClose() {
         return GLFW.glfwWindowShouldClose(this.windowVar);
+    }
+    
+    public void destroy() {
+        this.input.destroy();
+        GLFW.glfwWindowShouldClose(this.windowVar);
+        GLFW.glfwDestroyWindow(this.windowVar);
+        GLFW.glfwTerminate();
     }
 }
