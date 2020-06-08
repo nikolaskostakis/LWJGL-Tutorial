@@ -7,6 +7,7 @@ package main;
 
 import engine.graphics.Mesh;
 import engine.graphics.Renderer;
+import engine.graphics.Shader;
 import engine.graphics.Vertex;
 import engine.io.Input;
 import engine.io.Window;
@@ -34,6 +35,8 @@ public class Main implements Runnable {
         0, 1, 2,
         0, 3, 2,
     });
+    // A simple shader
+    public Shader shader;
 
     public void start() {
         this.game = new Thread(this, "game");
@@ -52,8 +55,12 @@ public class Main implements Runnable {
         // Create the window
         this.window.create();
         
+        //create shader
+//        shader = new Shader("dfhksd", "resources/shaders/mainFragment.glsl");
+        shader = new Shader("resources/shaders/mainVertex.glsl", "resources/shaders/mainFragment.glsl");
+        shader.create();
         // Create the rectangle and the renderer
-        renderer = new Renderer();
+        renderer = new Renderer(shader);
         mesh.create();
     }
     

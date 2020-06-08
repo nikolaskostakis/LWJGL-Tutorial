@@ -14,6 +14,20 @@ import org.lwjgl.opengl.GL30;
  * @author User
  */
 public class Renderer {
+    private Shader shader;
+    
+    /**
+     * 
+     * @param shader 
+     */
+    public Renderer(Shader shader) {
+        this.shader = shader;
+    }
+    
+    /**
+     * 
+     * @param mesh the mesh to be rendered
+     */
     public void renderMesh(Mesh mesh) {
         // Bind the VAO for the given mesh
         GL30.glBindVertexArray(mesh.getVAO());
@@ -24,10 +38,16 @@ public class Renderer {
         // Bind the IBO of the given mesh
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
         
+        // Bind the shader
+        this.shader.bind();
+        
         // Draw/Render
         GL11.glDrawElements(GL11.GL_TRIANGLES, mesh.getIndeces().length, GL11.GL_UNSIGNED_INT, 0);
         
-        // Unbind it
+        //Unbind the shader
+        this.shader.unbind();
+        
+        // Unbind the IBO
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
         
         // Disable the first index of the VAO
