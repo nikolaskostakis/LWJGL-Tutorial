@@ -12,14 +12,15 @@ import engine.maths.Vector3f;
  * @author User
  */
 public class Vertex {
-    private Vector3f position;
+    private Vector3f position, color;
 
     /**
      * 
      * @param position 
      */
-    public Vertex(Vector3f position) {
+    public Vertex(Vector3f position, Vector3f color) {
         this.position = position;
+        this.color = color;
     }
 
     /**
@@ -27,7 +28,15 @@ public class Vertex {
      * @return 
      */
     public Vector3f getPosition() {
-        return position;
+        return this.position;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public Vector3f getColor() {
+        return this.color;
     }
     
 }

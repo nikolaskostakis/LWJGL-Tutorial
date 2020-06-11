@@ -32,8 +32,11 @@ public class Renderer {
         // Bind the VAO for the given mesh
         GL30.glBindVertexArray(mesh.getVAO());
         
-        // Enable the first index of the VAO
+        // Enable the first index of the VAO, for the pbo
         GL30.glEnableVertexAttribArray(0);
+
+        // Enable the second index of the VAO, for the cbo
+        GL30.glEnableVertexAttribArray(1);
         
         // Bind the IBO of the given mesh
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, mesh.getIBO());
@@ -52,6 +55,9 @@ public class Renderer {
         
         // Disable the first index of the VAO
         GL30.glDisableVertexAttribArray(0);
+        
+        // Disable the second index of the VAO
+        GL30.glDisableVertexAttribArray(1);
         
         // Unbind the VAO
         GL30.glBindVertexArray(0);

@@ -27,10 +27,10 @@ public class Main implements Runnable {
     // A simple mesh with a rectangle rentangle to be rendered
     public Renderer renderer;
     public Mesh mesh = new Mesh(new Vertex[] {
-        new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f)),
-        new Vertex(new Vector3f(0.5f, 0.5f, 0.0f)),
-        new Vertex(new Vector3f(0.5f, -0.5f, 0.0f)),
-        new Vertex(new Vector3f(-0.5f, -0.5f, 0.0f))
+        new Vertex(new Vector3f(-0.5f, 0.5f, 0.0f), new Vector3f(1.0f, 0.0f, 0.0f)),
+        new Vertex(new Vector3f(0.5f, 0.5f, 0.0f), new Vector3f(0.0f, 1.0f, 0.0f)),
+        new Vertex(new Vector3f(0.5f, -0.5f, 0.0f), new Vector3f(1.0f, 0.0f, 1.0f)),
+        new Vertex(new Vector3f(-0.5f, -0.5f, 0.0f),new Vector3f(1.0f, 1.0f, 0.0f))
     }, new int[] {
         0, 1, 2,
         0, 3, 2,
@@ -38,11 +38,17 @@ public class Main implements Runnable {
     // A simple shader
     public Shader shader;
 
+    /**
+     * 
+     */
     public void start() {
         this.game = new Thread(this, "game");
         this.game.start();
     }
     
+    /**
+     * 
+     */
     public void init() {
         System.out.println("Initializing Game!");
         
@@ -64,6 +70,9 @@ public class Main implements Runnable {
         mesh.create();
     }
     
+    /**
+     * 
+     */
     public void run() {
         // Run the initialization 
         this.init();
@@ -77,10 +86,13 @@ public class Main implements Runnable {
             this.render();
         }
         
-        // Close the window
-        this.window.destroy();
+        // Close
+        this.close();
     }
     
+    /**
+     * 
+     */
     private void update() {
         // System.out.println("Updating Game!");
         this.window.update();
@@ -91,12 +103,29 @@ public class Main implements Runnable {
         }
     }
     
+    /**
+     * 
+     */
     private void render() {
         // Render the mesh
         renderer.renderMesh(mesh);
         
         // System.out.println("Rendering Game!");
         this.window.swapBuffers();
+    }
+    
+    /**
+     * 
+     */
+    private void close() {
+        // Close the window
+        this.window.destroy();
+        
+        // Destroy the mesh
+        this.mesh.destroy();
+        
+        // Destroy the shader
+        this.shader.destroy();
     }
     
     /**
